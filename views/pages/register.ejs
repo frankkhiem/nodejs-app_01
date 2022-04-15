@@ -1,0 +1,28 @@
+<div class="mt-4 container">
+  <a href="/login" type="button" class="btn btn-outline-secondary btn-sm mb-3">Login</a>
+  <form method="POST" action="/register">
+    <div class="mb-3">
+      <label for="fullname" class="form-label">Fullname</label>
+      <input name="fullname" type="text" class="form-control" id="fullname" value="<%= locals.fullname %>">
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email address</label>
+      <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" value="<%= locals.email %>">
+      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input name="username" type="text" class="form-control" id="username" value="<%= locals.username %>">
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input name="password" type="password" class="form-control" id="password" value="<%= locals.password %>">
+    </div>
+    <button type="submit" class="btn btn-primary">Signup</button>
+  </form>
+  <% if( locals.error ) { %> 
+    <div class="alert alert-danger mt-4" role="alert">
+      <%= error.message %> 
+    </div>
+  <% } %>
+</div>
