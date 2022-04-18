@@ -3,6 +3,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session')
 const expressLayouts = require('express-ejs-layouts');
+const methodOverride = require('method-override');
 const path = require('path')
 const dbConnect = require('./helpers/db');
 const router = require('./routes');
@@ -40,6 +41,9 @@ app.use(session({
 // Use body-parser
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+
+// Use method-override
+app.use(methodOverride('_method'));
 
 // Define Routes
 app.use(router);

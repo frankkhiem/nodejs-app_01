@@ -1,12 +1,14 @@
 const User = require('../../models/User');
 const bcrypt = require('bcrypt');
 
+/* [GET] /login */
 const showLogin = (req, res, next) => {
   res.render('pages/login', {
     layout: 'layouts/base.layout.ejs'
   });
 }
 
+/* [POST] /login */
 const login = async (req, res, next) => {
   try {
     let user = await User.findOne({
@@ -18,7 +20,7 @@ const login = async (req, res, next) => {
           username: req.body.identify,
         }
       ]
-    });
+    }).select('+password');
 
     if( user ) {
       const match = await bcrypt.compare(req.body.password, user.password);
@@ -56,12 +58,14 @@ const login = async (req, res, next) => {
   }
 };
 
+/* [GET] /register */
 const showRegister = (req, res, next) => {
   res.render('pages/register', {
     layout: 'layouts/base.layout.ejs'
   });
 }
 
+/* [POST] /register */
 const register = async (req, res, next) => {
   try {
     let existUser = await User.findOne({
@@ -104,6 +108,7 @@ const register = async (req, res, next) => {
   }
 };
 
+/* [GET] /logout */
 const logout = (req, res, next) => {
   req.session.destroy(() => {
     res.redirect('/login');

@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="/styles/userProfilePage/style.css">
+
+<div class="container">
+  <h1>Thông tin hồ sơ cá nhân của: <%= user.name %> </h1>
+  <p>Email: <%= user.email %></p>
+  <p>Username: <%= user.username %></p>
+  <p>About me: <%= user.description %></p>
+
+  <form method="POST" action="/user?_method=PUT">
+    <div class="mt-5 mb-3">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <label for="description" class="form-label">Edit description</label>
+      <textarea name="description" class="form-control" id="description" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+  </form>
+</div>

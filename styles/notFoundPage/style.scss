@@ -1,0 +1,126 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+	min-height: 100vh;
+	background-color: #050505;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+// style cho cube
+.cube__container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 380px;
+
+	.cube {
+		position: relative;
+		width: 200px;
+		height: 200px;
+		transform-style: preserve-3d;
+		animation: rotery 5s linear infinite;
+
+		@keyframes rotery {
+			0% {
+				transform: rotateX(-30deg) rotateY(0deg);
+			}
+			100% {
+				transform: rotateX(-30deg) rotateY(360deg);
+			}
+		}
+
+		.top {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 200px;
+			height: 200px;
+			background-color: #222;
+			transform: rotateX(90deg) translateZ(100px);
+
+			&::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 200px;
+				height: 200px;
+				background-color: rgb(230, 15, 40); 
+				transform: translateZ(-290px);
+				filter: blur(20px);
+				box-shadow: 0 0 120px rgba(230, 15, 40, 0.2), 0 0 200px rgba(230, 15, 40, 0.4), 0 0 300px rgba(230, 15, 40, 0.6), 0 0 400px rgba(230, 15, 40, 0.8), 0 0 500px rgba(230, 15, 40, 1),
+			}
+		}
+
+		div {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			transform-style: preserve-3d;
+
+			span {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: linear-gradient(#151515, #f00e36);
+				transform: rotateY(calc(90deg * var(--i))) translateZ(100px);
+			}
+		}
+	}
+}
+
+.not-found {
+	color: #fff;
+	margin-top: 5rem;
+	text-align: center;
+
+	.status-code {
+		font-size: 4rem;
+		line-height: 4rem;
+		font-weight: 600;
+	}
+
+	.status-name {
+		font-size: 1.5rem;
+	}
+}
+
+.home {
+	color: #2c2c2c;
+	margin: 0 auto;
+	width: 250px;
+	height: 32px;
+	line-height: 32px;
+	text-align: center;
+	font-size: 16px;
+	background-color: #fff;
+	border-radius: 10px;
+	margin-top: 1rem;
+	cursor: pointer;
+	transition: all .1s linear;
+
+	&:hover {
+		background-color: #46b04a;
+
+		a {
+			color: #fff;
+		}
+	}
+
+	a {
+		text-decoration: none;
+    display: block;
+    color: #2c2c2c;
+	}
+}
+

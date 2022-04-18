@@ -8,8 +8,7 @@ const userSchema = new Schema({
   },
   email: {
     type: String, 
-    unique: true, 
-    lowercase: true, 
+    unique: true,
     required: [true, "can't be blank"], 
     match: [/\S+@\S+\.\S+/, 'is invalid'], 
     index: true
@@ -17,7 +16,6 @@ const userSchema = new Schema({
   username: {
     type: String,
     unique: true,
-    lowercase: true,
     maxLength: [100, "username can't be longer than 255 characters"],
     required: [true, "can't be blank"], 
     match: [/^[a-zA-Z0-9]+$/, 'is invalid'], 
@@ -25,8 +23,15 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    select: false
   },
+  contacts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Contact'
+    }
+  ],
   description: String
 },
 {
