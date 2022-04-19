@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const mongooseDelete = require('mongoose-delete');
 
 const contactSchema = new Schema({
   name: {
@@ -16,11 +17,21 @@ const contactSchema = new Schema({
     required: [true, "phone number can't be blank"], 
     match: [/^[0-9]+$/, 'is invalid']
   },
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
   description: String
 },
 {
   collection: 'contacts',
   timestamps: true
+});
+
+// Add plugin mongoose soft delete
+contactSchema.plugin(mongooseDelete, { 
+  deletedAt : true ,
+  overrideMethods: true
 });
 
 const Contact = mongoose.model('Contact', contactSchema);

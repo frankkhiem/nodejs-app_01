@@ -1,0 +1,77 @@
+/* CSS custom comfirm */
+.confirm {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.confirm .confirm-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 360px;
+  height: 130px;
+  background-color: #fff;
+  border-radius: 6px;
+  transform: translate(-50%, -50%);
+  animation: openConfirm .1s linear;
+}
+
+@keyframes openConfirm {
+  0% {
+      opacity: 0.2;
+      transform: translate(-50%, -50%) scale(0.8);
+  }
+
+  100% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.confirm .confirm-message {
+  height: 50%;
+  padding: 25px 30px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2rem;
+}
+
+.confirm .confirm-btns {
+  height: 50%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 0 20px 20px;
+}
+
+.confirm-btns div {
+  height: 35px;
+  line-height: 35px;
+  min-width: 65px;
+  border-radius: 5px;
+  text-align: center;
+  color: #9498a0;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 3px;
+}
+
+.confirm-btns .cancel-btn:hover {
+  background-color: #e9f0f7;
+}
+
+.confirm-btns .agree-btn {
+  color: #fff;
+  background-color: #5490f1e6;
+  padding: 0 .5rem;
+}
+
+.confirm-btns .agree-btn:hover {
+  background-color: #3571d3;
+}

@@ -23,6 +23,7 @@
     "express-session": "^1.17.2",
     "method-override": "^3.0.0",
     "mongoose": "^6.2.11",
+    "mongoose-delete": "^0.5.4",
     "sass": "^1.50.0"
   },
   "devDependencies": {

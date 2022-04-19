@@ -26,12 +26,6 @@ const userSchema = new Schema({
     required: true,
     select: false
   },
-  contacts: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Contact'
-    }
-  ],
   description: String
 },
 {

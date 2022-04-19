@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 /* [GET] /login */
 const showLogin = (req, res, next) => {
-  res.render('pages/login', {
+  res.render('pages/auth/login', {
     layout: 'layouts/base.layout.ejs'
   });
 }
@@ -26,6 +26,7 @@ const login = async (req, res, next) => {
       const match = await bcrypt.compare(req.body.password, user.password);
       if( match ) {
         req.session.userId = user.id;
+        req.session.favoriteContacts = [];
         if( req.body.remember ) {
           //Bật remember me sẽ duy trì đăng nhập trong 1 ngày thay cho 1h
           req.session.cookie.maxAge = 24 * 60 * 60 * 1000 
@@ -33,7 +34,7 @@ const login = async (req, res, next) => {
         res.redirect('/');
       }
       else {
-        res.render('pages/login', {
+        res.render('pages/auth/login', {
           layout: 'layouts/base.layout.ejs',
           error: {
             message: 'Password wrong!'
@@ -44,7 +45,7 @@ const login = async (req, res, next) => {
       }
     }
     else {
-      res.render('pages/login', {
+      res.render('pages/auth/login', {
         layout: 'layouts/base.layout.ejs',
         error: {
           message: 'Email or Username wrong!'
@@ -60,7 +61,7 @@ const login = async (req, res, next) => {
 
 /* [GET] /register */
 const showRegister = (req, res, next) => {
-  res.render('pages/register', {
+  res.render('pages/auth/register', {
     layout: 'layouts/base.layout.ejs'
   });
 }
@@ -80,7 +81,7 @@ const register = async (req, res, next) => {
     });
     
     if(existUser) {
-      res.render('pages/register', {
+      res.render('pages/auth/register', {
         layout: 'layouts/base.layout.ejs',
         error: {
           message: 'Email or Username existed'

@@ -1,0 +1,43 @@
+<div class="container">
+  <h2 class="mb-5">Chỉnh sửa liên hệ</h2>
+  <form id="form-update" method="POST" action="/contacts/<%= contact._id %>?_method=PUT" class="w-50 mx-auto">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div class="mb-3">
+      <label for="contactName" class="form-label">Tên liên hệ</label>
+      <input name="contactName" type="text" class="form-control" id="contactName" value="<%= contact.name %>" required>
+    </div>
+    <div class="mb-3">
+      <label for="phoneNumber" class="form-label">Số điện thoại</label>
+      <input name="phoneNumber" type="text" class="form-control" id="phoneNumber" value="<%= contact.phone %>" required>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input name="email" type="email" class="form-control" id="email" value="<%= contact.email %>" aria-describedby="emailHelp">
+    </div>
+    <button class="btn btn-outline-secondary me-2" id="go-back-btn">Hủy</button>
+    <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
+  </form>
+</div>
+
+<script>
+  const goBackBtn = $('#go-back-btn');
+  goBackBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    location.href = '/contacts';
+  });
+
+  const updateForm = $('form#form-update');
+  updateForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    customConfirm({
+      message: `Bạn có chắc muốn sửa liên hệ này không?`,
+      type: 'Xác nhận',
+      callbackAgree: () => {
+        updateForm.submit();
+      },
+      callbackCancel: () => {
+        // e.preventDefault();
+      }
+    });
+  });
+</script>

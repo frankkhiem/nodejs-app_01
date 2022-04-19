@@ -1,0 +1,62 @@
+<div class="container">
+  <h2>Liên hệ yêu thích của <%= user.name %></h2>
+  <div class="mt-4">
+    <hr>
+  </div>
+  <table class="table table-striped mt-4">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Tên liên hệ</th>
+        <th scope="col">Số điện thoại</th>
+        <th scope="col">Email</th>
+        <th scope="col">Hành động</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% contacts.forEach((contact, index) => { %>
+        <tr>
+          <th scope="row"><%= index + 1 %></th>
+          <td><%= contact.name %></td>
+          <td>
+            <a class="text-decoration-none" href="tel:<%= contact.phone %>"><%= contact.phone %></a>
+          </td>
+          <td><%= contact.email %></td>
+          <td class="d-flex">
+            <form class="form-delete" method="POST" action="/contacts/favorite/<%= contact._id %>?_method=DELETE">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <input type="hidden" name="contactName" value="<%= contact.name %>">
+              <button type="submit" class="btn btn-outline-danger btn-sm">Xóa</button>
+            </form>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  <% if( contacts.length === 0 ) { %> 
+    <div class="text-center mt-5">
+      Bạn chưa có bất kỳ liên hệ Yêu thích nào!
+    </div>
+  <% } %> 
+</div>
+
+<script>
+
+  const deleteForms = $$('form.form-delete');
+  deleteForms.forEach((form) => {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      customConfirm({
+        message: `Bạn có chắc muốn xóa liên hệ ${form['contactName'].value}?`,
+        type: 'Xóa',
+        colorType: 'danger',
+        callbackAgree: () => {
+          form.submit();
+        },
+        callbackCancel: () => {
+          // e.preventDefault();
+        }
+      });
+    });
+  });
+</script>

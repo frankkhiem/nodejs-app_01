@@ -5,6 +5,7 @@ const checkAuth = async (req, res, next) => {
     if( req.session.userId ) {
       let user = await User.findById(req.session.userId);
       if (user) {
+        res.locals.user = user;
         next();
       } else {
         res.redirect('/login');

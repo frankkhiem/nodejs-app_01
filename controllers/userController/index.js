@@ -4,9 +4,7 @@ const User = require('../../models/User');
 const showProfile = async (req, res, next) => {
   try {
     let user = await User.findById(req.session.userId);
-    res.render('pages/userProfile', {
-      user
-    });
+    res.render('pages/user/userProfile');
   } catch (error) {
     next(error);
   }

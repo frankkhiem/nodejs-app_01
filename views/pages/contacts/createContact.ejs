@@ -1,0 +1,28 @@
+<div class="container">
+  <h2 class="mb-5">Tạo liên hệ mới</h2>
+  <form method="POST" action="/contacts" class="w-50 mx-auto">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div class="mb-3">
+      <label for="contactName" class="form-label">Tên liên hệ</label>
+      <input name="contactName" type="text" class="form-control" id="contactName" required>
+    </div>
+    <div class="mb-3">
+      <label for="phoneNumber" class="form-label">Số điện thoại</label>
+      <input name="phoneNumber" type="text" class="form-control" id="phoneNumber" required>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp">
+    </div>
+    <button class="btn btn-outline-secondary me-2" id="go-back-btn">Hủy</button>
+    <button type="submit" class="btn btn-primary">Tạo mới</button>
+  </form>
+</div>
+
+<script>
+  const goBackBtn = $('#go-back-btn');
+  goBackBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    location.href = '/contacts';
+  });
+</script>

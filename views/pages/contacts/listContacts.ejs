@@ -1,0 +1,165 @@
+<div class="container">
+  <h2>Danh sách liên hệ của <%= user.name %></h2>
+  <div class="mt-4">
+    <a href="/contacts/create" class="btn btn-success">Tạo mới</a>
+    <a href="/contacts/trashes" class="btn btn-outline-secondary float-end position-relative">
+      Thùng rác
+      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        <%= countContactsDeleted %>
+      </span>
+    </a>
+  </div>
+  <div class="mt-4">
+    <form method="POST" action="/contacts/custom-handling" class="d-flex align-items-center" id="form-handle-1">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <select class="form-select form-select-sm w-25 me-3" name="handleType">
+        <option value="" selected>---- Lựa chọn hành động ----</option>
+        <option value="addToFavorite">Thêm vào yêu thích</option>
+        <option value="multipleDelete">Xóa các liên hệ đã chọn</option>
+      </select>
+      <button type="submit" class="btn btn-outline-primary btn-sm" id="btn-submit-1" disabled>Thực hiện</button>
+    </form>
+    <hr>
+  </div>
+  <table class="table table-striped mt-4">
+    <thead>
+      <tr>
+        <th scope="col">
+          <input class="form-check-input" type="checkbox" value="" id="checkAllContacts">
+        </th>
+        <th scope="col">#</th>
+        <th scope="col">Tên liên hệ</th>
+        <th scope="col">Số điện thoại</th>
+        <th scope="col">Email</th>
+        <th scope="col">Hành động</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% contacts.forEach((contact, index) => { %>
+        <tr>
+          <th scope="col">
+            <input class="form-check-input check-contact" type="checkbox" name="checkContacts[]" value="<%= contact._id%>">
+          </th>
+          <th scope="row"><%= index + 1 %></th>
+          <td><%= contact.name %></td>
+          <td><%= contact.phone %></td>
+          <td><%= contact.email %></td>
+          <td class="d-flex">
+            <form method="GET" action="/contacts/edit/<%= contact._id %>" class="me-2">
+              <button type="submit" class="btn btn-outline-secondary btn-sm">Sửa</button>
+            </form>
+            <form class="form-delete" method="POST" action="/contacts/<%= contact._id %>?_method=DELETE">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <input type="hidden" name="contactName" value="<%= contact.name %>">
+              <button type="submit" class="btn btn-outline-danger btn-sm">Xóa</button>
+            </form>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  <% if( contacts.length === 0 ) { %> 
+    <div class="text-center mt-5">
+      Bạn chưa tạo bất kỳ liên hệ nào >>
+      <a href="/contacts/create" class="badge rounded-pill bg-info text-decoration-none">Tạo</a>
+    </div>
+  <% } %> 
+</div>
+
+<script>
+  // Chọn hành động mới anable nút Thực hiện
+  const formHandle1 = $('form#form-handle-1');
+  const btnSubmit1 = $('button#btn-submit-1');
+  const checkAnableBtnSubmit1 = () => {
+    if( getContactsIdChecked().length > 0 && formHandle1['handleType'].value !== '' ) {
+      btnSubmit1.disabled = false;
+    } else {
+      btnSubmit1.disabled = true;
+    }
+  }
+
+  formHandle1['handleType'].addEventListener('change', function() {
+    checkAnableBtnSubmit1();
+  });
+  
+  formHandle1.addEventListener('submit', function(e) {
+    e.preventDefault();
+    let contactIdsInput = document.createElement('input');
+    contactIdsInput.name = 'contactIds';
+    contactIdsInput.value = getContactsIdChecked();
+    contactIdsInput.type = 'hidden';
+    let message = '';
+    let type = '';
+    let colorType = 'primary';
+    switch( formHandle1['handleType'].value ) {
+      case 'addToFavorite':
+        message = 'Bạn muốn thêm những liên hệ đã chọn vào danh mục Yêu thích?';
+        type = 'Thêm';
+        break;
+      case 'multipleDelete':
+        message = 'Bạn muốn xóa những liên hệ đã chọn?';
+        type = 'Xóa';
+        colorType = 'danger'
+        break;
+      default:
+        message = 'Bạn xác nhận điều này?';
+        type = 'Xác nhận';
+    };
+    customConfirm({
+      message,
+      type,
+      colorType,
+      callbackAgree: () => {
+        formHandle1.append(contactIdsInput);
+        formHandle1.submit();
+      },
+      callbackCancel: () => {
+        // e.preventDefault();
+      }
+    });
+  });
+
+  const deleteForms = $$('form.form-delete');
+  deleteForms.forEach((form) => {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      customConfirm({
+        message: `Bạn có chắc muốn xóa liên hệ ${form['contactName'].value}?`,
+        type: 'Xóa',
+        colorType: 'danger',
+        callbackAgree: () => {
+          form.submit();
+        },
+        callbackCancel: () => {
+          // e.preventDefault();
+        }
+      });
+    });
+  });
+
+  const getContactsIdChecked = () => {
+    let contactsChecked = $$('input[name="checkContacts[]"]:checked');
+    let ids = [];
+    contactsChecked.forEach(contact => {
+      ids.push(contact.value);
+    });
+    return ids;
+  }
+
+  const checkAllBtn = $('#checkAllContacts');
+  const checkContactBtns = $$('input[name="checkContacts[]"]');
+
+  checkAllBtn.addEventListener('change', function() {
+    checkContactBtns.forEach(checkBtn => {
+      checkBtn.checked = checkAllBtn.checked;
+    });
+    checkAnableBtnSubmit1();
+  });
+
+  checkContactBtns.forEach(checkBtn => {
+    checkBtn.addEventListener('change', function() {
+      checkAllBtn.checked = getContactsIdChecked().length === checkContactBtns.length;
+      checkAnableBtnSubmit1();
+    });
+  });
+</script>
