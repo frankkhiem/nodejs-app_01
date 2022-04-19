@@ -18,6 +18,10 @@
       <label for="password" class="form-label">Password</label>
       <input name="password" type="password" class="form-control" id="password" value="<%= locals.password %>">
     </div>
+    <div class="mb-3">
+      <label for="confirm-password" class="form-label">Confirm password</label>
+      <input name="confirmPassword" type="password" class="form-control" id="confirm-password">
+    </div>
     <button type="submit" class="btn btn-primary">Signup</button>
   </form>
   <% if( locals.error ) { %> 

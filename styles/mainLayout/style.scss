@@ -1,0 +1,13 @@
+// Reset CSS
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+$bodyHeight: calc(100vh - 80px - 56px);
+
+.main-body {
+  min-height: $bodyHeight;
+  padding-bottom: 1rem;
+}

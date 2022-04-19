@@ -1,18 +1,35 @@
-const User = require('../../models/User');
 const Contact = require('../../models/Contact');
 
 /* [GET] /contacts */
 const showContacts = async (req, res, next) => {
   try {
-    let contacts = await Contact.find({
+    let page = parseInt(req.query.page) || 1;
+    let perPage = 10;
+
+    let countContacts = await Contact.countDocuments({
       owner: req.session.userId
     });
+
+    let totalPages = Math.ceil(countContacts / perPage) || 1;
+
+    if( page > totalPages ) {
+      res.redirect(`/contacts?page=${totalPages}`);
+      return
+    }
+    
+    let contacts = await Contact.find({
+      owner: req.session.userId
+    }).limit(perPage).skip( (page - 1) * perPage );
+
     let countContactsDeleted = await Contact.countDocumentsDeleted({
       owner: req.session.userId
     });
+
     res.render('pages/contacts/listContacts', {
       contacts,
-      countContactsDeleted
+      countContactsDeleted,
+      totalPages,
+      currentPage: page
     });
   } catch (error) {
     next(error)
@@ -58,9 +75,14 @@ const createContact = async (req, res, next) => {
   }
 }
 
-/* [GET] /contacts/edit */
+/* [GET] /contacts/:id/edit */
 const showEditContact = async (req, res, next) => {
   try {
+    if( req.query.errorMessage ) {
+      res.locals.error = {
+        message: req.query.errorMessage
+      }
+    }
     let contact = await Contact.findById(req.params.id);
     res.render('pages/contacts/editContact', {
       contact
@@ -72,6 +94,10 @@ const showEditContact = async (req, res, next) => {
 
 /* [PUT] /contacts/:id */
 const updateContact = async (req, res, next) => {
+  if( req.error ) {
+    res.redirect(`/contacts/${req.params.id}/edit?errorMessage=${req.error.message}`);
+    return;
+  }
   try {
     let contact = await Contact.findById(req.params.id);
     let {contactName, phoneNumber, email} = req.body;

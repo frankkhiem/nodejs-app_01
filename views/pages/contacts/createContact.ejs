@@ -3,20 +3,25 @@
   <form method="POST" action="/contacts" class="w-50 mx-auto">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
     <div class="mb-3">
-      <label for="contactName" class="form-label">Tên liên hệ</label>
-      <input name="contactName" type="text" class="form-control" id="contactName" required>
+      <label for="contactName" class="form-label">Tên liên hệ*</label>
+      <input name="contactName" type="text" class="form-control" id="contactName" value="<%= locals.contactName %>" required>
     </div>
     <div class="mb-3">
-      <label for="phoneNumber" class="form-label">Số điện thoại</label>
-      <input name="phoneNumber" type="text" class="form-control" id="phoneNumber" required>
+      <label for="phoneNumber" class="form-label">Số điện thoại*</label>
+      <input name="phoneNumber" type="text" class="form-control" id="phoneNumber" value="<%= locals.phoneNumber %>" required>
     </div>
     <div class="mb-3">
       <label for="email" class="form-label">Email</label>
-      <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp">
+      <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" value="<%= locals.email %>">
     </div>
     <button class="btn btn-outline-secondary me-2" id="go-back-btn">Hủy</button>
     <button type="submit" class="btn btn-primary">Tạo mới</button>
   </form>
+  <% if( locals.error ) { %> 
+    <div class="alert alert-danger mt-4 w-50 mx-auto" role="alert">
+      <%= error.message %> 
+    </div>
+  <% } %> 
 </div>
 
 <script>

@@ -13,7 +13,7 @@ const contactSchema = new Schema({
   },
   phone: {
     type: String,
-    maxLength: [100, "phone number can't be longer than 255 characters"],
+    maxLength: [100, "phone number can't be longer than 100 characters"],
     required: [true, "phone number can't be blank"], 
     match: [/^[0-9]+$/, 'is invalid']
   },

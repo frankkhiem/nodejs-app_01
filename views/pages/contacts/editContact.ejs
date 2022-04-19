@@ -3,11 +3,11 @@
   <form id="form-update" method="POST" action="/contacts/<%= contact._id %>?_method=PUT" class="w-50 mx-auto">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
     <div class="mb-3">
-      <label for="contactName" class="form-label">Tên liên hệ</label>
+      <label for="contactName" class="form-label">Tên liên hệ*</label>
       <input name="contactName" type="text" class="form-control" id="contactName" value="<%= contact.name %>" required>
     </div>
     <div class="mb-3">
-      <label for="phoneNumber" class="form-label">Số điện thoại</label>
+      <label for="phoneNumber" class="form-label">Số điện thoại*</label>
       <input name="phoneNumber" type="text" class="form-control" id="phoneNumber" value="<%= contact.phone %>" required>
     </div>
     <div class="mb-3">
@@ -17,6 +17,11 @@
     <button class="btn btn-outline-secondary me-2" id="go-back-btn">Hủy</button>
     <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
   </form>
+  <% if( locals.error ) { %> 
+    <div class="alert alert-danger mt-4 w-50 mx-auto" role="alert">
+      <%= error.message %> 
+    </div>
+  <% } %> 
 </div>
 
 <script>

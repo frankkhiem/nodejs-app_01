@@ -45,7 +45,7 @@
           <td><%= contact.phone %></td>
           <td><%= contact.email %></td>
           <td class="d-flex">
-            <form method="GET" action="/contacts/edit/<%= contact._id %>" class="me-2">
+            <form method="GET" action="/contacts/<%= contact._id %>/edit" class="me-2">
               <button type="submit" class="btn btn-outline-secondary btn-sm">Sửa</button>
             </form>
             <form class="form-delete" method="POST" action="/contacts/<%= contact._id %>?_method=DELETE">
@@ -63,7 +63,51 @@
       Bạn chưa tạo bất kỳ liên hệ nào >>
       <a href="/contacts/create" class="badge rounded-pill bg-info text-decoration-none">Tạo</a>
     </div>
-  <% } %> 
+  <% } else { %>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center mt-4">
+        <% if( currentPage === 1 ) { %> 
+          <li class="page-item disabled">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+        <% } else { %>
+          <li class="page-item">
+            <a class="page-link" href="/contacts?page=<%= currentPage - 1 %>" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+        <% } %>
+        
+        <% for( let i = 1; i <= totalPages; i++ ) { %>
+          <% if( i === currentPage) { %>
+            <li class="page-item active">
+              <span  class="page-link" href="/contacts?page=<%= i %>"><%= i %></span>
+            </li>
+          <% } else { %>
+            <li class="page-item">
+              <a class="page-link" href="/contacts?page=<%= i %>"><%= i %></a>
+            </li>
+          <% } %>
+        <% } %>
+
+        <% if( currentPage === totalPages ) { %> 
+          <li class="page-item disabled">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        <% } else { %>
+          <li class="page-item">
+            <a class="page-link" href="/contacts?page=<%= currentPage + 1 %>" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        <% } %>
+      </ul>
+    </nav>
+  <% } %>
 </div>
 
 <script>

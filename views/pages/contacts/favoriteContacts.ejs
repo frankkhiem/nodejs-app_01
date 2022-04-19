@@ -23,10 +23,10 @@
           </td>
           <td><%= contact.email %></td>
           <td class="d-flex">
-            <form class="form-delete" method="POST" action="/contacts/favorite/<%= contact._id %>?_method=DELETE">
+            <form class="form-delete" method="POST" action="/contacts/<%= contact._id %>/favorite?_method=DELETE">
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <input type="hidden" name="contactName" value="<%= contact.name %>">
-              <button type="submit" class="btn btn-outline-danger btn-sm">Xóa</button>
+              <button type="submit" class="btn btn-outline-danger btn-sm">Xóa bỏ</button>
             </form>
           </td>
         </tr>
@@ -47,7 +47,7 @@
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       customConfirm({
-        message: `Bạn có chắc muốn xóa liên hệ ${form['contactName'].value}?`,
+        message: `Bạn có chắc muốn xóa liên hệ ${form['contactName'].value} khỏi danh mục Yêu thích?`,
         type: 'Xóa',
         colorType: 'danger',
         callbackAgree: () => {

@@ -1,7 +1,7 @@
 const loginValidation = (req, res, next) => {
   let {identify, password} = req.body;
   if( !identify ) {
-    res.render('pages/login', {
+    res.render('pages/auth/login', {
       layout: 'layouts/base.layout.ejs',
       error: {
         message: 'Email or Username is required'
@@ -11,7 +11,7 @@ const loginValidation = (req, res, next) => {
     });
     return
   } else if( !password ) {
-    res.render('pages/login', {
+    res.render('pages/auth/login', {
       layout: 'layouts/base.layout.ejs',
       error: {
         message: 'Password is required'
@@ -26,7 +26,7 @@ const loginValidation = (req, res, next) => {
 }
 
 const registerValidation = (req, res, next) => {
-  let {fullname, email, username, password} = req.body;
+  let {fullname, email, username, password, confirmPassword} = req.body;
   let error = {};
   if( !(fullname && email && username && password) ) {
     if( !fullname ) {
@@ -39,7 +39,7 @@ const registerValidation = (req, res, next) => {
       error.message = 'Password is required!'
     }
 
-    res.render('pages/register', {
+    res.render('pages/auth/register', {
       layout: 'layouts/base.layout.ejs',
       error,
       fullname,
@@ -51,10 +51,10 @@ const registerValidation = (req, res, next) => {
   }
 
   if( !(/\S+@\S+\.\S+/.test(email)) ) {
-    res.render('pages/register', {
+    res.render('pages/auth/register', {
       layout: 'layouts/base.layout.ejs',
       error: {
-        message: 'Wrong email format!'
+        message: 'Email format wrong! Ex: example@host.com'
       },
       fullname,
       email: '',
@@ -65,7 +65,7 @@ const registerValidation = (req, res, next) => {
   }
 
   if( !(/^[a-zA-Z0-9]+$/.test(username)) ) {
-    res.render('pages/register', {
+    res.render('pages/auth/register', {
       layout: 'layouts/base.layout.ejs',
       error: {
         message: 'Username accept a-z A-Z 0-9 without spaces!'
@@ -78,6 +78,20 @@ const registerValidation = (req, res, next) => {
     return
   }
 
+  if( password !== confirmPassword ) {
+    res.render('pages/auth/register', {
+      layout: 'layouts/base.layout.ejs',
+      error: {
+        message: 'Confirm password wrong!'
+      },
+      fullname,
+      email,
+      username,
+      password
+    });
+    return
+  }
+  
   next();
 }
 
