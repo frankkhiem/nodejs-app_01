@@ -37,7 +37,7 @@ router.use('/test', authMiddleware.checkAuth, (req, res, next) => {
 
 // Redirect Not Found Page if route not match
 // router.use('/*', (req, res, next) => {
-//   res.render('pages/notFound', {
+//   res.render('pages/notFound/notFound', {
 //     layout: 'layouts/base.layout.ejs'
 //   });
 // });

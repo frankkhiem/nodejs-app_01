@@ -14,10 +14,13 @@ const showProfile = async (req, res, next) => {
 const updateProfile = async (req, res, next) => {
   try {
     let user = await User.findById(req.session.userId);
+    if( req.body.fullname ) {
+      user.name = req.body.fullname;
+    }
     if( req.body.description ) {
       user.description = req.body.description;
-      await user.save();
     }
+    await user.save();
     res.redirect('/user');
   } catch (error) {
     next(error);

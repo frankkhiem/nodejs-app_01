@@ -7,10 +7,16 @@
   <p>About me: <%= user.description %></p>
 
   <form method="POST" action="/user?_method=PUT">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
     <div class="mt-5 mb-3">
-      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-      <label for="description" class="form-label">Edit description</label>
-      <textarea name="description" class="form-control" id="description" rows="3"></textarea>
+      <div class="mb-3">
+        <label for="fullname" class="form-label">Edit fullname</label>
+        <input name="fullname" type="text" class="form-control" id="fullname" placeholder="<%= user.name %>">
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Edit description</label>
+        <textarea name="description" class="form-control" id="description" rows="3"></textarea>
+      </div>
     </div>
     <button type="submit" class="btn btn-primary">Update</button>
   </form>

@@ -48,6 +48,13 @@ app.use(methodOverride('_method'));
 // Define Routes
 app.use(router);
 
+// Customize error handler
+// app.use((err, req, res, next) => {
+//   res.status(500).render('pages/serverError/serverError', {
+//     layout: 'layouts/base.layout.ejs'
+//   })
+// });
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
